@@ -1,0 +1,37 @@
+<%-include('partials/header.ejs') %>
+<body>
+    <div class="container">
+        <h1 class="mt-5 fw-bold title">Book Reviews</h1>
+        <% if(reviews.length > 0) { %>
+            <ul class="list-unstyled">
+                <% reviews.forEach(book => { %>
+                    <li class="media my-4">
+                        <% if(book.coverUrl) { %>
+                            <img src="<%= book.coverUrl %>" class="mr-3" alt="Book Cover" width="100">
+                        <% } else { %>
+                            <img src="placeholder.png" class="mr-3" alt="No Cover available" width="100">
+                        <% } %>
+                        <div class="media-body">
+                            <h2 class="mt-0"><%= book.name %></h2>
+                            <p><%= book.review %></p>
+                            <p><strong>ISBN:</strong> <%= book.isbn %></p>
+                            <p><strong>Rating:</strong>
+                                <% for(let i = 0; i < book.stars; i++) { %>
+                                    <span>&#9733;</span>
+                                <% } %>
+                            </p>
+                            <a href="/update?id=<%= book.id %>" class="btn btn-primary mr-2">Update</a>
+                            <form action="/delete?id=<%= book.id %>" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No reviews found.</p>
+        <% } %>
+        <a href="add" class="btn btn-success mt-3">Add a new review</a>
+    </div>
+</body>
+<%-include('partials/footer.ejs') %>
